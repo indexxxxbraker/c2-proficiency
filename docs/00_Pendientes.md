@@ -3,7 +3,7 @@
 ## Estado
 Módulos cerrados: UOE (P1–P4), RDG (P5–P7), WRT (P1–P2), LST (P1–P4), SPK, LEX (IDI, PHV, COL, CNF, ARG).
 Entregado: 16 teorías · 116 hojas de práctica · 22 MP3 · 20 generadores.
-Pendiente: SIM (simulacros, en este repositorio: SIM-01 entregado, faltan SIM-02 a SIM-06) · Guía v2 · plan de estudio ene–jun.
+Pendiente: SIM (simulacros, en este repositorio: SIM-01 y SIM-02 entregados, faltan SIM-03 a SIM-06) · Guía v2 · plan de estudio ene–jun.
 
 ## Simulacros entregados
 (una línea por simulacro al cerrarlo: fecha, papers, léxico nuevo)
@@ -21,6 +21,24 @@ Pendiente: SIM (simulacros, en este repositorio: SIM-01 entregado, faltan SIM-02
   put down roots · stay put · not know a soul · a good judge of character · take the trouble to · in retrospect ·
   keep an eye on · pack sth up · draw people in · close the distance · a roomful of · stop for a chat ·
   that's putting it a bit strongly · I could live with that · the evidence backs me up · a present in itself
+- **SIM-02** · 28-oct-2026 · Entregados los cuatro papers en sim/SIM-02/: SIM-02_RUE.pdf (53 ítems; resolución a
+  ciegas 53/53; clave de Part 4 ampliada con las variantes del resolutor) · SIM-02_WRT.pdf (essay + letter, article,
+  report; inglés y lógica de los modelos revisados por agente, que corrigió la postura del essay y la propuesta de la
+  carta) · SIM-02_LST.pdf + .mp3 (30 ítems; a ciegas 30/30; 39:48 con pausas; ASR de todas las frases-respuesta y una
+  frase reformulada) · SIM-02_SPK.pdf + .mp3 (19:10; fases de 60 y 180 s; fotos de Commons en dominio público, CC0,
+  CC BY 2.0 y CC BY 4.0; inglés revisado por agente). Temas en docs/SIM_temas.md.
+  Léxico sin teoría: a minor moral failing · closely cropped · neither food nor fodder · land to spare · a mark of
+  respectability · owe less to X than to Y · a pointed remark · with elaborate politeness · enquire after sb’s health
+  · with every appearance of unconcern · stray off line · in bits · would sooner have · mill about · be wound up ·
+  undo sb · with eleven seconds to spare · fanciful · scrap sth in favour of sth · get butterflies · have favourites ·
+  strike sb as wilful · wince · tailor sth to sb · a genuine malaise · part company over sth · know little and care
+  less · gratuities · be hooked on sth · count for little / for everything · bend the rules · civic reception · won’t
+  hear of sth · a stickler for · single sb out · that rings a bell · mouth the words · snigger at sb · do one’s
+  homework · grating · on those odds · hardly kinder · be only too glad to · on the understanding that · the decisive
+  blow · all but vanish · a dreadful return on · a line I won’t cross · raise one’s pitch · fit in with sb · pick up
+  the odd scrape · that was that · the regulars · with one’s shoulders up round one’s ears · be flooded with light ·
+  follow a thread · on one’s best behaviour · painfully so · an end in itself · less a drive than a treadmill · a good
+  servant but a poor master · fickle
 
 ## Candidatos a v2 (decidir en diciembre si compensa una v2; respetar numeración de la v1)
 - LEX-IDI: come to a head · have an axe to grind · hatchet job · go astray · go back and forth
