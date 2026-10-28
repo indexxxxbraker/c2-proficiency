@@ -38,6 +38,10 @@ apt-get install -y ffmpeg poppler-utils     # si faltan: ffmpeg para audio, pdft
   `cat /etc/ssl/certs/ca-certificates.crt >> $(python3 -c "import certifi;print(certifi.where())")`
   (`lst_audio.setup()` ya lo hace). Si el entorno indica otro bundle del proxy (p. ej. `/root/.ccr/ca-bundle.crt`), añadir ese.
 - El ASR (faster-whisper, modelo small.en) tarda 20–30 s por tramo con el modelo en caché.
+- Si `pip` no consigue compilar `docopt` (dependencia de num2words), instalar `pip install --no-deps num2words`.
+- El audio y las fotos necesitan red hacia `speech.platform.bing.com` (edge-tts, por WebSocket), `huggingface.co`
+  (modelo del ASR) y `commons.wikimedia.org` / `upload.wikimedia.org` (fotos de Speaking). Si el proxy del entorno
+  los bloquea, se generan PDFs y specs igualmente y el audio queda pendiente.
 
 ## Simulacros: qué se produce
 

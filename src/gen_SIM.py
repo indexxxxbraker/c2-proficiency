@@ -30,6 +30,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from c2_plantilla import *  # noqa: E402,F401,F403
+from c2_plantilla import _F, _font_path  # noqa: E402
 from reportlab.lib.styles import ParagraphStyle  # noqa: E402
 
 VERSION = "1"
@@ -304,6 +305,292 @@ def wrt(sim_dir, ciegas=None, only_verify=False):
     return path
 
 
+# ---------- Listening ----------
+# Etapas (la sintesis y el reconocimiento de voz son lentos; cada etapa reaprovecha la cache de lst_audio, que se
+# fija con LST_CACHE=$PWD/.cache/lst):
+#   --stage verify     contenido de las cuatro partes y voces sin repetir en el paper
+#   --stage audio      MP3 completo con el guion del examen; guarda el informe en la cache y comprueba velocidades
+#   --stage asr N      reconocimiento de voz de la parte N (1-4); en las Parts 2-4, --chunk K para un solo tramo
+#   --stage pdf        PDF con el mapa del MP3 (necesita el informe de la etapa audio)
+LST_PARTS = [  # clave, generador, titulo, items
+    ("P1", "gen_LST-P1", "Three extracts", 6),
+    ("P2", "gen_LST-P2", "Sentence completion", 9),
+    ("P3", "gen_LST-P3", "Interview", 5),
+    ("P4", "gen_LST-P4", "Multiple matching", 10),
+]
+LST_OPENING = [
+    "Proficiency Listening. Practice test {n}.",
+    "There are four parts to the test. You will hear each part twice. For each part of the test, there will be "
+    "time for you to look through the questions and time for you to check your answers.",
+    "Write your answers on the question paper. You will have five minutes at the end of the test to copy your "
+    "answers onto the separate answer sheet.",
+]
+
+
+def _lst_voices(spec, key):
+    if key == "P1":
+        return [v for ex in spec["extracts"] for v in ex["speakers"].values()]
+    if key == "P2":
+        return [spec["voice"]]
+    if key == "P3":
+        return list(spec["speakers"].values())
+    return [s["voice"] for s in spec["speakers"]]
+
+
+def lst_load(sim_dir):
+    sid = sim_id(sim_dir)
+    ns = read_specs(sim_dir, "lst")
+    mods = {key: load(gen) for key, gen, _, _ in LST_PARTS}
+    specs = {key: ns[key] for key, *_ in LST_PARTS}
+    return sid, specs, mods
+
+
+def lst_verify(sid, specs, mods):
+    import lst_audio as A
+    errs, lines = [], []
+    seen = {}
+    for key, gen, title, _ in LST_PARTS:
+        e, info = mods[key].verify(specs[key])
+        errs += [f"Part {key[1]}: {x}" for x in e]
+        lines.append(f"Part {key[1]} · {title}: {info}")
+        for v in _lst_voices(specs[key], key):
+            if v == A.NARRATOR:
+                errs.append(f"Part {key[1]}: la voz del narrador ({v}) no puede ser un hablante")
+            if v in seen and seen[v] != key:
+                errs.append(f"la voz {v} se repite en las Parts {seen[v][1]} y {key[1]}")
+            seen.setdefault(v, key)
+    lines.append(f"Voces: {len(seen)} distintas · " + ", ".join(f"{v} ({k[1]})" for v, k in seen.items()))
+    return errs, lines
+
+
+def lst_events(sid, specs, mods):
+    import lst_audio as A
+    ev = [A.mark("Inicio")]
+    for line in LST_OPENING:
+        ev.append(A.say(line.format(n=A.n2w(int(sid[-2:])))))
+        ev.append(A.pause(2))
+    ev.append(A.pause(3))
+    for key, *_ in LST_PARTS:
+        ev += mods[key].audio_events(specs[key], standalone=False)
+        ev.append(A.pause(2))
+    ev.append(A.mark("Copiar respuestas"))
+    ev += A.script_transfer(paper=True)
+    ev.append(A.mark("Fin"))
+    return ev
+
+
+def _lst_report_path(sid):
+    import lst_audio as A
+    return os.path.join(A.CACHE, f"report_{sid}_LST.json")
+
+
+def _mmss(t):
+    m, s = divmod(int(round(t)), 60)
+    return f"{m}:{s:02d}"
+
+
+def lst_story(sid, specs, mods, rep, with_answers=True):
+    """rep: informe de la etapa audio (para el mapa del MP3); None solo para los enunciados de la resolucion a
+    ciegas, antes de tener el audio."""
+    marks = [(t, lab) for t, kind, lab in rep["timeline"] if kind == "mark"] if rep else []
+    start = {lab: t for t, lab in marks}
+    when = (lambda lab: _mmss(start[lab])) if rep else (lambda lab: "—")
+    rows = [["Part", "Tarea", "Preguntas", "Puntos", "En el MP3"]]
+    first = 1
+    for key, gen, title, n in LST_PARTS:
+        rows.append([key[1], title, f"{first}–{first + n - 1}", str(n), when(f"Part {key[1]}")])
+        first += n
+    rows.append(["", "Copiar las respuestas en la hoja", "", "", when("Copiar respuestas")])
+    rows.append(["", "<b>Total</b>", "<b>30</b>", "<b>30</b>", f"<b>{_mmss(rep['duration_s'])}</b>" if rep else ""])
+    minutes = round(rep["duration_s"] / 60) if rep else 40
+    story = cover(
+        sid, "Listening", f"Simulacro {sid[-2:]} · paper 3 de 4",
+        f"Parts 1–4 · 30 preguntas · unos {minutes} minutos · audio: {sid}_LST.mp3",
+        ["Time: approximately <b>40 minutes</b>, including five minutes to copy your answers.",
+         "There are <b>four</b> parts to the test. You will hear each part <b>twice</b>.",
+         "Write your answers on the question paper as you listen. At the end of the test you will have five "
+         "minutes to copy them onto the answer sheet.",
+         "Each question carries one mark."],
+        rows, [14, 74, 26, 20, 36],
+        ["Ten delante solo los enunciados (las páginas siguientes). Reproduce el MP3 de principio a fin, sin pausar: "
+         "las pausas para leer las preguntas y para revisar ya están en el audio, con el guion del examen.",
+         "Responde en los enunciados mientras escuchas y, en los cinco minutos finales, pasa las respuestas a la hoja "
+         "de respuestas (después de la Part 4). En la Part 2, escribe las palabras que oyes, sin cambiarlas.",
+         "Corrige con las soluciones: incluyen la transcripción completa, con la frase que da cada respuesta "
+         "resaltada.",
+         "Si fallas una pregunta, vuelve a escuchar ese tramo con la transcripción delante; el mapa del MP3 está en "
+         "esta página."],
+        notes=["Voces sintéticas con acentos británico, irlandés, australiano, neozelandés y norteamericano; el "
+               "narrador es siempre el mismo. Ninguna respuesta depende solo de la entonación."])
+    if rep:
+        story.append(h2("Mapa del MP3"))
+        mrows = [["Minuto", "Tramo"]] + [[_mmss(t), lab] for t, lab in marks]
+        story += table(mrows, [30, 140])
+    for key, gen, title, _ in LST_PARTS:
+        story.append(PageBreak())
+        story.append(Paragraph(f'<font color="#A4243B">Part {key[1]}</font>&nbsp;&nbsp;{title}', S["h1"]))
+        story += mods[key].question_flowables(specs[key])
+    if not with_answers:
+        return story
+    story.append(PageBreak())
+    story.append(Paragraph("Hoja de respuestas", S["h1"]))
+    for key, gen, title, _ in LST_PARTS:
+        story.append(KeepTogether(mods[key].answer_sheet_flowables(specs[key], heading=f"Part {key[1]} · {title}")))
+    rows = [["Part", "Tarea", "Puntos"]]
+    for key, gen, title, n in LST_PARTS:
+        rows.append([key[1], title, f"______ / {n}"])
+    rows.append(["", "<b>Total</b>", "<b>______ / 30</b>"])
+    block = [h2("Puntuación total")] + table(rows, [16, 104, 50], zebra=False, extra=[
+        ("TOPPADDING", (0, 1), (-1, -1), 7), ("BOTTOMPADDING", (0, 1), (-1, -1), 7)])
+    block.append(Paragraph(
+        "Referencia orientativa, no oficial: el aprobado con nota C2 suele quedar en torno al 60 % de la "
+        "puntuación bruta, unos 18 de 30 puntos; la conversión exacta cambia de un examen a otro.", S["small"]))
+    story.append(KeepTogether(block))
+    story += solutions_start("Soluciones")
+    for i, (key, gen, title, _) in enumerate(LST_PARTS):
+        if i:
+            story.append(PageBreak())
+        story += mods[key].solutions_flowables(specs[key], with_band=False, heading=f"Part {key[1]} · {title}")
+    return story
+
+
+def lst(sim_dir, stage="verify", n=None, chunk=None, ciegas=None):
+    import json
+    import lst_audio as A
+    sid, specs, mods = lst_load(sim_dir)
+    errs, lines = lst_verify(sid, specs, mods)
+    if stage == "verify" or errs:
+        for ln in lines:
+            print("  " + ln)
+        if errs:
+            raise ValueError(f"{sid} LST:\n  - " + "\n  - ".join(errs))
+        print(f"{sid} LST · verificación del contenido sin errores")
+        return None
+    rep_path = _lst_report_path(sid)
+    if stage == "audio":
+        A.setup(asr=False)
+        mp3 = os.path.join(sim_dir, f"{sid}_LST.mp3")
+        rep = A.render(lst_events(sid, specs, mods), mp3)
+        json.dump(rep, open(rep_path, "w"), default=str)
+        print(f"{sid}_LST.mp3 · {_mmss(rep['duration_s'])} · narrador {rep['narrator_rate']:+d} %")
+        for t, kind, lab in rep["timeline"]:
+            if kind == "mark":
+                print(f"  {_mmss(t)}  {lab}")
+        bad = []
+        for key, *_ in LST_PARTS:
+            e, ls = mods[key].verify_audio(specs[key], rep, asr=False)
+            bad += [f"Part {key[1]}: {x}" for x in e]
+            print("\n".join(f"  Part {key[1]} · {x}" for x in ls))
+        if bad:
+            raise ValueError("audio:\n  - " + "\n  - ".join(bad))
+        return mp3
+    if stage == "asr":
+        A.setup(asr=True)
+        rep = json.load(open(rep_path))
+        key = f"P{n}"
+        m, sp = mods[key], specs[key]
+        if key == "P1":
+            e, ls = m.verify_audio(sp, rep, asr=True)
+        elif key == "P2":
+            e, ls = m.verify_audio(sp, rep, asr=True, paragraphs=[chunk] if chunk else None)
+        else:
+            e, ls = m.verify_audio(sp, rep, asr=True, part=chunk)
+        print("\n".join("  " + x for x in ls))
+        if e:
+            print("PROBLEMAS:\n  - " + "\n  - ".join(e))
+        return not e
+    if stage == "pdf":
+        rep = json.load(open(rep_path))
+        name = f"{sid}_LST.pdf"
+        path = os.path.join(sim_dir, name)
+        build(path, lst_story(sid, specs, mods, rep), f"{sid} · Listening", name, title=f"{sid} · Listening")
+        left = check_pdf(path)
+        if left:
+            raise ValueError(f"{name}: restos de código en el PDF: {sorted(set(left))}")
+        print(f"{name} · {pages(path)} páginas · verificación sin errores")
+        if ciegas:
+            os.makedirs(ciegas, exist_ok=True)
+            q = os.path.join(ciegas, f"{sid}_LST_enunciados.pdf")
+            build(q, lst_story(sid, specs, mods, rep, with_answers=False), f"{sid} · Listening",
+                  f"{sid}_LST_enunciados.pdf")
+            print(f"enunciados: {q}")
+        return path
+    raise ValueError(f"etapa desconocida: {stage}")
+
+
+# ---------- Speaking ----------
+# Necesita red: las fotos se descargan de Wikimedia Commons (y se vuelve a comprobar su licencia) y el MP3 del
+# interlocutor se sintetiza con edge-tts. Specs: sim/SIM-NN/specs_spk.py define SPEC con el formato de gen_SPK.py.
+def spk_story(sid, spec, rep, spk):
+    n_min = round(rep["duration_s"] / 60)
+    rows = [["Part", "Tarea", "En el examen", "En el MP3"]]
+    mk = dict((lab, t) for t, lab in rep["marks"])
+    rows += [["1", "Entrevista: cinco preguntas personales", "unos 2 min", _mmss(mk["Part 1 · Interview"])],
+             ["2", "Tarea con fotos: un minuto sobre dos fotos y tres minutos de discusión hasta una decisión",
+              "unos 4 min", _mmss(mk["Part 2 · Fase 1 (un minuto)"])],
+             ["3", "Long turn de dos minutos con cada tarjeta, pregunta de seguimiento y discusión",
+              "unos 10 min", _mmss(mk["Part 3 · Tarjeta A"])],
+             ["", "<b>Total</b>", "<b>16 min</b> (en parejas)", f"<b>{_mmss(rep['duration_s'])}</b>"]]
+    story = cover(
+        sid, "Speaking", f"Simulacro {sid[-2:]} · paper 4 de 4",
+        f"Test completo · unos {n_min} minutos con el MP3 {sid}_SPK.mp3 · grábate",
+        ["The Speaking test has <b>three</b> parts and is taken in pairs, with two examiners.",
+         "In this practice version, the interlocutor and your partner are on the recording. Answer when there is "
+         "a pause: the silences are timed to the exam."],
+        rows, [14, 92, 30, 34],
+        [spk.M(x) for x in [
+            "Ten delante solo el material del candidato (hoja de fotos y tarjetas, en las páginas siguientes). Las "
+            "preguntas de la Part 1, las instrucciones de la Part 2 y las de la discusión solo se oyen.",
+            "Pon a grabar el móvil y reproduce el MP3 de principio a fin, sin pausar. El [[Thank you]] del "
+            "interlocutor marca el final de cada respuesta.",
+            "Part 2: empiezas tú cada fase. El compañero interviene en momentos fijos y no te escucha (SPK_Teoria_v1 "
+            "§1.4): reacciona a lo que dice cuando termine.",
+            "Part 3: respondes las dos tarjetas y las dos preguntas de seguimiento, y luego las seis de la discusión.",
+            "Al día siguiente, corrige con la hoja de autocorrección y solo después mira las soluciones (§8.1).",
+        ]])
+    story.append(h2("Mapa del MP3"))
+    story += table([["Minuto", "Parte"]] + [[_mmss(t), lab] for t, lab in rep["marks"]], [30, 140])
+    story.append(PageBreak())
+    story += spk.visuals_flowables(spec)
+    story.append(PageBreak())
+    story += spk.cards_flowables(spec)
+    story.append(PageBreak())
+    story += spk.answer_sheet_flowables(spec)
+    story += spk.solutions_flowables(spec, rep)
+    return story
+
+
+def spk(sim_dir, only_verify=False):
+    sid = sim_id(sim_dir)
+    spec = read_specs(sim_dir, "spk")["SPEC"]
+    spec.setdefault("num", sid.replace("SIM-", "S"))
+    m = load("gen_SPK")
+    for ph in spec["p2"]["photos"]:
+        ph["_info"] = m.photo_info(ph["file"])
+    errs, info = m.verify(spec)
+    if errs:
+        raise ValueError(f"{sid} SPK:\n  - " + "\n  - ".join(errs))
+    print(f"{sid} SPK · contenido sin errores · {info}")
+    if only_verify:
+        return None
+    mp3 = os.path.join(sim_dir, f"{sid}_SPK.mp3")
+    rep = m.render_audio(spec, mp3)
+    aerrs, ainfo = m.check_audio(spec, rep)
+    print(f"{sid}_SPK.mp3 · {_mmss(rep['duration_s'])} · {ainfo}")
+    if aerrs:
+        raise ValueError("audio:\n  - " + "\n  - ".join(aerrs))
+    name = f"{sid}_SPK.pdf"
+    path = os.path.join(sim_dir, name)
+    story = spk_story(sid, spec, rep, m)
+    build(path, story, f"{sid} · Speaking", name, title=f"{sid} · Speaking")
+    m._F = {k: _font_path(v) for k, v in _F.items()}   # comprobacion de glifos con las fuentes de fonts/
+    perrs = m.check_pdf(path, story) + [f"resto de marcado: {x}" for x in check_pdf(path)]
+    if perrs:
+        raise ValueError(f"{name}:\n  - " + "\n  - ".join(perrs))
+    print(f"{name} · {pages(path)} páginas · verificación sin errores")
+    return path
+
+
 # ---------- Comprobaciones del PDF ----------
 def _pdf_text(path):
     import pdfplumber
@@ -336,5 +623,14 @@ if __name__ == "__main__":
         rue(sim_dir, ciegas=ciegas, only_verify=verify_only)
     elif paper == "wrt":
         wrt(sim_dir, ciegas=ciegas, only_verify=verify_only)
+    elif paper == "lst":
+        st = args[args.index("--stage") + 1] if "--stage" in args else ("verify" if verify_only else "pdf")
+        num = int(args[args.index("--stage") + 2]) if st == "asr" else None
+        ch = int(args[args.index("--chunk") + 1]) if "--chunk" in args else None
+        ok = lst(sim_dir, stage=st, n=num, chunk=ch, ciegas=ciegas)
+        if ok is False:
+            sys.exit(1)
+    elif paper == "spk":
+        spk(sim_dir, only_verify=verify_only)
     else:
         raise SystemExit(f"paper desconocido: {paper}")

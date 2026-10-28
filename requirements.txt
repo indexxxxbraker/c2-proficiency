@@ -5,3 +5,5 @@ pillow>=10.0
 edge-tts>=6.1
 faster-whisper>=1.0
 certifi
+num2words
+fonttools
