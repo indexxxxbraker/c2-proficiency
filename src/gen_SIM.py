@@ -319,7 +319,7 @@ LST_PARTS = [  # clave, generador, titulo, items
     ("P4", "gen_LST-P4", "Multiple matching", 10),
 ]
 LST_OPENING = [
-    "Proficiency Listening. Practice test {n}.",
+    "Proficiency Listening. Mock test {n}.",
     "There are four parts to the test. You will hear each part twice. For each part of the test, there will be "
     "time for you to look through the questions and time for you to check your answers.",
     "Write your answers on the question paper. You will have five minutes at the end of the test to copy your "

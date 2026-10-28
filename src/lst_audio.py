@@ -44,6 +44,7 @@ import sys
 VERSION = "1"
 SR = 24000
 CACHE = os.environ.get("LST_CACHE", "/home/claude/lst_cache")
+PROXY = os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")   # edge-tts no lee el proxy del entorno
 
 VOICES = {  # id: (voz de edge-tts, variedad, sexo)
     "Thomas": ("en-GB-ThomasNeural", "en-GB", "M"),     # narrador
@@ -142,7 +143,7 @@ async def _synth_async(jobs):
         async with sem:
             for attempt in range(5):
                 try:
-                    await edge_tts.Communicate(text, VOICES[voice][0], rate=f"{rate:+d}%").save(out)
+                    await edge_tts.Communicate(text, VOICES[voice][0], rate=f"{rate:+d}%", proxy=PROXY).save(out)
                     if os.path.getsize(out) > 1000:
                         return
                 except Exception:
@@ -162,7 +163,7 @@ def synth(items):
         k = _key(VOICES[voice][0], rate, text)
         mp3, wav = os.path.join(CACHE, k + ".mp3"), os.path.join(CACHE, k + ".wav")
         outs.append(wav)
-        if not os.path.exists(wav) and not os.path.exists(mp3):
+        if not os.path.exists(wav) and not (os.path.exists(mp3) and os.path.getsize(mp3) > 1000):
             todo.append((text, voice, rate, mp3))
     if todo:
         asyncio.run(_synth_async(todo))
