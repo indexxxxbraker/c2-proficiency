@@ -575,6 +575,11 @@ def spk(sim_dir, only_verify=False):
         L["open"] = f"C2 Proficiency. Speaking. Mock test {m.NUMW[int(sp['num'])]}."
         return L
     m._say_lines = sim_lines
+    if not os.environ.get("SPK_PHOTOS"):   # caché de fotos dentro del repositorio (ignorada por git)
+        m.PHOTO_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".cache", "spk_photos")
+    m.UA = "C2ProficiencySimulacros/1.0 (https://github.com/indexxxxbraker/c2-proficiency; educational)"
+    fetch = m._fetch
+    m._fetch = lambda url, timeout=60, tries=10: fetch(url, timeout, tries)   # Commons responde 429 a menudo
     for ph in spec["p2"]["photos"]:
         ph["_info"] = m.photo_info(ph["file"])
     errs, info = m.verify(spec)
