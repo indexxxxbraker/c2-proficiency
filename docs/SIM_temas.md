@@ -14,7 +14,9 @@ terminado. Al cerrar un simulacro, añadir aquí sus temas.
   sobre el ruido y el derecho al silencio · report sobre un sistema municipal de bicicletas · review de un monólogo
   cómico · LST: P1 natación en aguas abiertas, un arboricultor, arqueólogos en un vertedero victoriano · P2 cómo se
   crea un perfume · P3 una diseñadora de juegos de mesa · P4 completar una ruta de senderismo larga · SPK: P2
-  formas de comunicarse (exposición) · P3 el hogar y el arraigo
+  formas de comunicarse, cartel de una exposición (fotos: centralita telefónica de 1907, cartero de Royal Mail, dos
+  mujeres en lengua de signos, pareja mayor en videollamada, dos señoras charlando en un mercado) · P3 el hogar y el
+  arraigo
 
 ## UOE-P1 · Multiple-choice cloze (6 hojas)
 

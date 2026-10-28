@@ -1,7 +1,7 @@
 # SIM-01 · Speaking · spec del test completo (formato de src/gen_SPK.py)
 # Se monta con: python3 src/gen_SIM.py spk sim/SIM-01   (necesita red: Wikimedia Commons y edge-tts)
-# Fotos: cada 'file' es el título del archivo en Commons (dominio público, CC0 o CC BY sin SA). Mientras está en
-# None, 'busqueda' describe la foto que hay que encontrar; al elegirla, revisar que what/spec no la contradigan.
+# Fotos: cada 'file' es el título del archivo en Commons (dominio público, CC0 o CC BY sin SA); gen_SPK vuelve a
+# comprobar la licencia al descargarla. what/spec describen la foto real: revisarlos si se cambia alguna.
 
 SPEC = {
     "num": "S01", "level": 3,
@@ -16,7 +16,7 @@ SPEC = {
                   "that I know so well I barely notice it."},
         {"q": "How do you usually celebrate your birthday?",
          "model": "Fairly quietly these days, to be honest. When I was younger I used to organise big parties, but "
-                  "they always seemed to involve more stress than fun. Now I prefer a long dinner with a handful of "
+                  "they always seemed to involve more stress than fun. Now I prefer a long dinner out with a handful of "
                   "close friends – somewhere nobody has to cook or clear up afterwards, which is a present in "
                   "itself."},
         {"q": "Do you think you’re a good judge of character?",
@@ -30,58 +30,64 @@ SPEC = {
         "intro": "different ways in which people communicate",
         "q1_pics": ["C", "D"],
         "q1": "how the people in these pictures might be feeling about the way they are communicating",
-        "context": "I'd like you to imagine that a communications museum is putting on an exhibition called "
-                   "‘Keeping in touch’. These pictures are being considered for the poster.",
-        "task": "Talk together about what each picture shows about the way people communicate. Then decide which "
-                "picture would make the most effective poster for the exhibition.",
+        "context": "I’d like you to imagine that a communications museum is putting on an exhibition called "
+                   "‘Keeping in touch’. These pictures are being considered for a poster advertising the "
+                   "exhibition.",
+        "task": "Talk together about the different ways of communicating that these pictures show. Then decide "
+                "which picture would make the most effective poster.",
         "partner_voice": "Libby",
         "photos": [
-            {"letter": "A", "file": None, "busqueda": "telephone switchboard operators 1910s",
-             "what": "Una fotografía antigua: varias operadoras, sentadas en fila ante un gran cuadro de conexiones "
-                     "telefónicas, trabajan con auriculares.",
+            {"letter": "A", "file": "File:Telephone switchboard 6 Oct 1907 Salt Lake City.jpg",
+             "what": "Una fotografía de 1907: en una sala amplia, una larga fila de operadoras, sentadas de espaldas, "
+                     "trabaja ante una centralita telefónica que ocupa toda la pared.",
              "spec": "Que el trabajo exigía rapidez y mucha concentración; que oían a medias conversaciones ajenas; "
-                     "que era uno de los pocos empleos de oficina abiertos a las mujeres de la época.",
+                     "que era uno de los pocos empleos de oficina abiertos a las mujeres de la época; que trabajaban "
+                     "en silencio y bajo vigilancia.",
              "offers": "Muestra que hablar a distancia necesitaba intermediarios humanos: la tecnología no siempre "
                        "elimina a las personas, a veces solo las esconde.",
              "decision": "A favor: llama la atención y plantea cuánto hemos cambiado. En contra: puede dar al cartel "
                          "un aire de lección de historia."},
-            {"letter": "B", "file": None, "busqueda": "postman delivering letters street",
-             "what": "Un cartero reparte el correo a pie por una calle de casas.",
-             "spec": "Que conoce a los vecinos de su ruta; que hoy reparte más folletos y paquetes que cartas "
-                     "personales.",
+            {"letter": "B", "file": "File:Postman on Wandle Rd, SW17 (5479444030).jpg",
+             "what": "Un cartero de Royal Mail, con un fajo de cartas en la mano, empuja un carrito rojo de reparto "
+                     "por la acera de una calle de casas adosadas.",
+             "spec": "Que lleva años haciendo la misma ruta y conoce a los vecinos; que hoy reparte más facturas, "
+                     "folletos y paquetes que cartas personales.",
              "offers": "La comunicación lenta y física: una carta exige esfuerzo y se guarda; también, el valor de "
                        "alguien que recorre el barrio cada día.",
              "decision": "A favor: cercana y reconocible. En contra: puede leerse como pura nostalgia, o como algo "
                          "demasiado cotidiano para un cartel."},
-            {"letter": "C", "file": None, "busqueda": "two people sign language conversation",
-             "what": "Dos personas conversan cara a cara en lengua de signos.",
-             "spec": "Que se conocen bien, por lo relajado de la escena; que la conversación es animada y ninguno "
-                     "de los dos mira a otra parte.",
+            {"letter": "C", "file": "File:Sign language, 2014 (01).jpg",
+             "what": "Dos mujeres, sentadas a una mesa, conversan en lengua de signos: una le cuenta algo con las "
+                     "manos y la otra la escucha sonriendo, a punto de responder.",
+             "spec": "Que son amigas y quizá hacía tiempo que no se veían; que la conversación es animada y ninguna "
+                     "de las dos aparta la vista de la otra.",
              "offers": "Recuerda que comunicarse no depende de la voz ni de la tecnología: exige atención plena y "
                        "mirar al otro.",
              "decision": "A favor: original, amplía la idea de comunicación. En contra: quizá haya que explicarla, "
                          "y no debe usarse como simple curiosidad."},
-            {"letter": "D", "file": None, "busqueda": "family video call grandmother",
-             "what": "Una familia reunida ante una pantalla habla por videollamada con una persona mayor.",
-             "spec": "Que viven lejos unos de otros; que la persona mayor agradece verlos aunque le cueste seguir "
-                     "quién habla en cada momento.",
+            {"letter": "D", "file": "File:Beautiful senior couple working on laptop in the garden.jpg",
+             "what": "Una pareja de cierta edad, abrazada, sonríe ante la pantalla de un portátil: todo indica que "
+                     "hablan por videollamada con alguien a quien quieren.",
+             "spec": "Que al otro lado están los hijos o los nietos, que viven lejos; que la llamada es un momento "
+                     "esperado de la semana; que quizá les costó acostumbrarse a la tecnología.",
              "offers": "Cercanía a pesar de la distancia, pero también sus límites: verse no es lo mismo que estar "
                        "juntos.",
              "decision": "A favor: actual, emotiva y fácil de entender. En contra: es la opción más previsible."},
-            {"letter": "E", "file": None, "busqueda": "neighbours chatting over garden fence",
-             "what": "Dos vecinos de cierta edad charlan apoyados en la valla que separa sus jardines.",
-             "spec": "Que se ven casi a diario y la conversación no tiene un propósito concreto; que se conocen "
-                     "desde hace años y saben bastante el uno del otro.",
+            {"letter": "E", "file": "File:\"Comadres\" talking (50222476403).jpg",
+             "what": "Fotografía en blanco y negro: dos mujeres mayores charlan en un mercado al aire libre; una de "
+                     "ellas subraya lo que dice señalando con el dedo.",
+             "spec": "Que se conocen de toda la vida y coinciden cada semana en el mercado; que se están poniendo al "
+                     "día de las novedades del barrio, y que la charla les importa más que la compra.",
              "offers": "La comunicación sin motivo ni aparato: hablar por hablar, que es lo que mantiene unida una "
-                       "calle o un barrio.",
-             "decision": "A favor: cálida, universal, sin tecnología de por medio. En contra: puede parecer "
-                         "nostálgica y dejar fuera a los visitantes jóvenes."},
+                       "calle, un barrio o un pueblo.",
+             "decision": "A favor: cálida, universal, sin tecnología de por medio; el gesto da vida a la foto. En "
+                         "contra: puede parecer nostálgica y dejar fuera a los visitantes jóvenes."},
         ],
         "phase1_lines": [
-            "The two people signing look completely absorbed in each other – there’s nothing between them, not "
+            "The two women signing look completely absorbed in each other – there’s nothing between them, not "
             "even a screen.",
-            "I’d imagine the grandmother is thrilled to see everyone, even if she can’t always work out who’s "
-            "talking.",
+            "I’d imagine the couple are thrilled to see whoever’s on the other end, even if it’s no substitute "
+            "for a hug.",
         ],
         "decision": "La D convence por cercanía; la A, por la curiosidad que despierta; la C, por recordar que "
                     "comunicarse no es solo tecnología. Una salida negociada: la D en el cartel y la A dentro, a la "
@@ -89,36 +95,36 @@ SPEC = {
         "language": ["What the poster needs, above all, is …", "This one raises a question rather than answering it.",
                      "A and E make a striking pair: …", "If it came down to a choice between …"],
         "partner": [
-            {"text": "I find the video call quite moving, actually. The grandmother’s obviously thrilled, but "
-                     "everyone’s leaning in towards the screen, as if they’re trying to close the distance.",
+            {"text": "I think the video call is quite moving, actually. They’re clearly delighted, and they’re huddled "
+                     "together in front of the screen, as if they’re trying to close the distance.",
              "provokes": "Una observación fina: recógela con sus palabras y llévala a la otra foto.",
-             "react": "‘Trying to close the distance’ – that’s exactly it. And the two people signing don’t have any "
+             "react": "‘Trying to close the distance’ – that’s exactly it. And the two women signing don’t have any "
                       "distance to close, which is probably why they look so relaxed.",
              "theory": ["6.2"]},
-            {"text": "My vote would be for the switchboard operators. Old photographs always draw people in, and it "
-                     "shows that a phone call once depended on a whole room full of people.",
+            {"text": "My vote would be for the switchboard operators. Old photographs always draw people in, and this "
+                     "one shows that a phone call once depended on a whole roomful of people.",
              "provokes": "Una propuesta razonable: concede lo que tiene de bueno antes de objetar.",
              "react": "You’ve got a point about old photographs – people do stop and look. My only worry is that it "
-                      "might make the exhibition look like a history lesson rather than something about their own "
-                      "lives.",
+                      "might make the exhibition look like a history lesson rather than something to do with "
+                      "visitors’ own lives.",
              "theory": ["6.3"]},
-            {"text": "Honestly, the two neighbours by the fence say it all. Nobody talks like that any more – most "
+            {"text": "Honestly, the two women at the market say it all. Nobody stops to chat like that any more – most "
                      "people don’t even know who lives next door these days.",
              "provokes": "Una generalización exagerada: matízala sin desautorizar a tu compañera.",
-             "react": "I think that’s putting it a bit strongly. Plenty of people still chat to their neighbours – "
-                      "it’s just that some of the chatting has moved to the street’s group messages.",
+             "react": "I think that’s putting it a bit strongly. Plenty of people still stop for a chat at the market "
+                      "or the school gate – it’s just that some of the gossip has moved to group chats.",
              "theory": ["6.4", "6.3"]},
             {"text": "You’ve been very quiet about the postman. What do you make of him? Do you think anyone still "
-                     "gets excited about a letter these days?",
+                     "gets excited about a letter?",
              "provokes": "Te cede el turno con una pregunta: respóndela y amplía el alcance más allá de la foto.",
-             "react": "I do, actually – precisely because letters are so rare now. A letter takes effort, and I think "
+             "react": "I think they do, actually – precisely because letters are so rare now. A letter takes effort, and I think "
                       "people can tell. Mind you, most of what he’s delivering is probably bills.",
              "theory": ["6.5"]},
             {"text": "We’re running out of time, so why don’t we settle on the video call? It’s modern and cheerful, "
                      "and almost everyone can relate to it.",
              "provokes": "Una propuesta de cierre: acepta, negocia o deja constancia del desacuerdo, pero decidid.",
              "react": "I could live with that, although it is a bit predictable. How about the video call on the "
-                      "poster and the switchboard just inside the entrance, so people see how far we’ve come?",
+                      "poster and the switchboard just inside the entrance, so that people can see how far we’ve come?",
              "theory": ["6.6", "6.3"]},
         ],
     },
@@ -141,16 +147,16 @@ SPEC = {
                  "like home. So for me, the answer has much less to do with the building than with what happens "
                  "inside it and around it.",
                  "The most obvious factor is people. A flat you share with friends can feel like home within a "
-                 "week, whereas a beautiful house where you don’t know a soul can feel like a hotel for years. I "
-                 "suppose home is partly the place where someone notices whether you’ve come back.",
+                 "week, whereas a beautiful house in a street where you don’t know a soul can feel like a hotel for years. I "
+                 "suppose home is partly the place where someone would notice if you didn’t come home.",
                  "Then there’s routine, which I think is underrated. It’s the small, repetitive things – knowing "
                  "which stair creaks, having a favourite chair, the café where they start making your coffee as "
                  "soon as you walk in. None of that is remarkable in itself, but taken together it gives you the "
                  "sense that the place has adjusted to you, and you to it.",
                  "Memories obviously play a part too, though I’d add a note of caution here. A place can be full of "
                  "memories and still not feel like home any more – plenty of people go back to the house they grew "
-                 "up in and feel like visitors. So memories may explain why we’re attached to a place in "
-                 "retrospect, rather than what makes it home now.",
+                 "up in and feel like visitors. Memories, then, may explain why a place seems "
+                 "special in retrospect, rather than what makes it home now.",
                  "So, all in all, I’d say home is less a location than a relationship. You don’t so much find it as "
                  "build it, slowly, out of people and habits – and that, to me, is rather reassuring, because it "
                  "means you can do it more than once.",
@@ -191,7 +197,7 @@ SPEC = {
                  "life, and on when you ask the question.",
                  "The strongest argument for putting down roots is community. If you stay in one place long enough, "
                  "you build up a network of people who know you – neighbours who’ll keep an eye on your house, "
-                 "friends you can ring at the last minute when something goes wrong. That kind of support takes "
+                 "friends you can ring at two in the morning when something goes wrong. That kind of support takes "
                  "years to develop, and it simply can’t be packed up and taken with you when you move. People who "
                  "never stay anywhere for long often find they have plenty of acquaintances but very few people "
                  "they could really rely on.",
@@ -226,7 +232,7 @@ SPEC = {
                                     "turn."}},
         ],
         "discussion": [
-            {"q": "Why do you think it’s become so hard for young people to leave their parents’ home?",
+            {"q": "Why do you think it’s become so hard for young people to leave home?",
              "theory": ["6.7"],
              "ideas": "La vivienda cara y el empleo inestable, pero también la comodidad y una relación con los "
                       "padres más fácil que antes; no siempre es un fracaso.",
@@ -235,7 +241,7 @@ SPEC = {
             {"q": "How much does the place where you grow up shape the person you become?", "theory": ["4.6"],
              "ideas": "Mucho en el acento, las costumbres y las expectativas; menos en el carácter. A veces lo que "
                       "más marca es el deseo de irse.",
-             "lang": "More than we like to admit – even people who spend their lives getting away from a place are "
+             "lang": "More than we like to admit – even people who spend their lives trying to get away from a place are "
                      "shaped by it."},
             {"q": "Should governments do more to help people stay in the towns and villages they come from?",
              "theory": ["3.5", "6.3"],
@@ -247,8 +253,8 @@ SPEC = {
              "theory": ["6.7", "6.3"],
              "ideas": "En parte; pero el lugar importa, porque los sentimientos se apoyan en olores, calles y "
                       "objetos concretos.",
-             "lang": "I’d go along with that to some extent, but feelings need somewhere to attach themselves."},
-            {"q": "Can people really feel they belong to a community they’ve only ever met online?",
+             "lang": "I’d go along with that to some extent, but feelings need somewhere to attach themselves to."},
+            {"q": "Can people really feel they belong to an online community?",
              "theory": ["4.3"],
              "ideas": "La pertenencia puede ser real (apoyo, intereses compartidos), pero es más frágil: es fácil "
                       "marcharse sin consecuencias.",
@@ -261,5 +267,5 @@ SPEC = {
              "lang": "I think it’s often less the town they miss than the person they were when they lived there."},
         ],
     },
-    "lex": ["a good judge of character", "the evidence backs me up", "a present in itself", "draw people in", "close the distance", "that’s putting it a bit strongly", "I could live with that", "put down roots", "stay put", "keep an eye on", "not know a soul", "in retrospect", "pack sth up", "an anchor (figurado)"],
+    "lex": ["a good judge of character", "the evidence backs me up", "a present in itself", "draw people in", "a roomful of", "close the distance", "stop for a chat", "that’s putting it a bit strongly", "I could live with that", "put down roots", "stay put", "keep an eye on", "not know a soul", "in retrospect", "pack sth up", "an anchor (figurado)"],
 }

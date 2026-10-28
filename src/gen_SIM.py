@@ -319,7 +319,7 @@ LST_PARTS = [  # clave, generador, titulo, items
     ("P4", "gen_LST-P4", "Multiple matching", 10),
 ]
 LST_OPENING = [
-    "Proficiency Listening. Practice test {n}.",
+    "Proficiency Listening. Mock test {n}.",
     "There are four parts to the test. You will hear each part twice. For each part of the test, there will be "
     "time for you to look through the questions and time for you to check your answers.",
     "Write your answers on the question paper. You will have five minutes at the end of the test to copy your "
@@ -575,8 +575,13 @@ def spk(sim_dir, only_verify=False):
         L["open"] = f"C2 Proficiency. Speaking. Mock test {m.NUMW[int(sp['num'])]}."
         return L
     m._say_lines = sim_lines
-    for ph in spec["p2"]["photos"]:
-        ph["_info"] = m.photo_info(ph["file"])
+    if not os.environ.get("SPK_PHOTOS"):   # caché de fotos dentro del repositorio (ignorada por git)
+        m.PHOTO_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), ".cache", "spk_photos")
+    m.UA = "C2ProficiencySimulacros/1.0 (https://github.com/indexxxxbraker/c2-proficiency; educational)"
+    fetch = m._fetch
+    m._fetch = lambda url, timeout=60, tries=10: fetch(url, timeout, tries)   # Commons responde 429 a menudo
+    for ph in spec["p2"]["photos"]:   # 960 px: tamaño estándar de miniatura (los originales sin escalar dan 429)
+        ph["_info"] = m.photo_info(ph["file"], width=960)
     errs, info = m.verify(spec)
     if errs:
         raise ValueError(f"{sid} SPK:\n  - " + "\n  - ".join(errs))
