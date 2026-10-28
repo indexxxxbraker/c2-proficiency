@@ -267,5 +267,5 @@ SPEC = {
              "lang": "I think it’s often less the town they miss than the person they were when they lived there."},
         ],
     },
-    "lex": ["a good judge of character", "the evidence backs me up", "a present in itself", "draw people in", "close the distance", "that’s putting it a bit strongly", "I could live with that", "put down roots", "stay put", "keep an eye on", "not know a soul", "in retrospect", "pack sth up", "an anchor (figurado)"],
+    "lex": ["a good judge of character", "the evidence backs me up", "a present in itself", "draw people in", "a roomful of", "close the distance", "stop for a chat", "that’s putting it a bit strongly", "I could live with that", "put down roots", "stay put", "keep an eye on", "not know a soul", "in retrospect", "pack sth up", "an anchor (figurado)"],
 }
