@@ -17,6 +17,17 @@ terminado. Al cerrar un simulacro, añadir aquí sus temas.
   formas de comunicarse, cartel de una exposición (fotos: centralita telefónica de 1907, cartero de Royal Mail, dos
   mujeres en lengua de signos, pareja mayor en videollamada, dos señoras charlando en un mercado) · P3 el hogar y el
   arraigo
+- **SIM-02** · RUE: P1 Laennec y la invención del estetoscopio (1816) · P2 el bostezo (teorías y contagio) · P3 el
+  contenedor de Malcolm McLean (Ideal X, 1956) y el comercio mundial · P4 frases sueltas (calabaza de concurso, retrato
+  falso, corredora lesionada, ferri retrasado por la niebla, restaurante decepcionante, campeona de ajedrez derrotada
+  por una aficionada) · P5 el césped: historia (Capability Brown, Budding) y dejar de cortarlo · P6 un concurso de
+  perros pastores en Gales · P7 cuatro jueces de concursos (patinaje artístico, hortalizas, piano, vino) · WRT: P1 el
+  voto obligatorio · P2 letter al director sobre abolir las propinas · article sobre un deporte sin público (hockey
+  subacuático) · report sobre un intercambio con la ciudad hermanada · LST: P1 un coro de aficionados, una
+  vulcanóloga, un pódcast de inventos fracasados · P2 el comercio del hielo natural en el XIX (Frederic Tudor) · P3 un
+  grabador de sonidos de la naturaleza · P4 dejar el coche · SPK: P2 cómo comemos, portada de una revista (fotos:
+  comida de domingo de 1943, comedor de instituto, puesto ambulante en un mercado nocturno tailandés, pícnic en un
+  parque, plato de pasta en un escritorio) · P3 el éxito y la ambición
 
 ## UOE-P1 · Multiple-choice cloze (6 hojas)
 
