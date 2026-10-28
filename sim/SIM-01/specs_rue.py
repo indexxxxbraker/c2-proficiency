@@ -312,8 +312,7 @@ P4 = {
                 "existe.",
          "wrong": [("MAKES A POINT TO LEARN", "con [[a point]] va [[of + -ing]]; [[to]] exige [[make it a point]]"),
                    ("IS MAKING A POINT OF LEARNING", "[[always]] + presente simple: es un hábito"),
-                   ("MAKES THE POINT OF LEARNING", "[[make the point that]] es «señalar, argumentar»")],
-         "lex": ["make a point of doing sth"]},
+                   ("MAKES THE POINT OF LEARNING", "[[make the point that]] es «señalar, argumentar»")]},
     ],
 }
 

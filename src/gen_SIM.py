@@ -563,8 +563,18 @@ def spk_story(sid, spec, rep, spk):
 def spk(sim_dir, only_verify=False):
     sid = sim_id(sim_dir)
     spec = read_specs(sim_dir, "spk")["SPEC"]
-    spec.setdefault("num", sid.replace("SIM-", "S"))
+    spec["num"] = sid[-2:]
     m = load("gen_SPK")
+    pending = [ph["letter"] for ph in spec["p2"]["photos"] if not ph.get("file")]
+    if pending:
+        raise ValueError(f"{sid} SPK: fotos sin elegir en Commons: {pending} (ver 'busqueda' en specs_spk.py)")
+    lines = m._say_lines
+
+    def sim_lines(sp):   # el MP3 se identifica como simulacro, no como hoja de practica
+        L = lines(sp)
+        L["open"] = f"C2 Proficiency. Speaking. Mock test {m.NUMW[int(sp['num'])]}."
+        return L
+    m._say_lines = sim_lines
     for ph in spec["p2"]["photos"]:
         ph["_info"] = m.photo_info(ph["file"])
     errs, info = m.verify(spec)

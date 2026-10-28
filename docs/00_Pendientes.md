@@ -7,6 +7,17 @@ Pendiente: SIM (simulacros, en este repositorio) · Guía v2 · plan de estudio 
 
 ## Simulacros entregados
 (una línea por simulacro al cerrarlo: fecha, papers, léxico nuevo)
+- **SIM-01** · 28-oct-2026 · en curso · Entregados: SIM-01_RUE.pdf (53 ítems; resolución a ciegas 53/53) y
+  SIM-01_WRT.pdf (essay + article, report, review). LST y SPK: specs completos y verificados (LST resuelto a ciegas
+  con la transcripción, 30/30), pendientes de audio, ASR y fotos: el proxy de la sesión bloquea
+  speech.platform.bing.com, huggingface.co y Wikimedia Commons. Temas en docs/SIM_temas.md.
+  Léxico sin teoría: in the dead of night · in the small hours · a hunch · fret about · muddled · set eyes on ·
+  far-flung · unglamorous · dispiriting · brisk precision · in single file · coax sth out of sth · tinker ·
+  in the depths of winter · shared stewardship · a proprietorial view of · stolen outright · wholesale restitution ·
+  frayed tempers · beyond the reach of the law · take-up (of a scheme) · leave sb stranded · have had one's fill of ·
+  win the room back · toughen sb up · word gets round · more often than not · have one's priorities right ·
+  save face · make a mess of sth · carry the conversation · catch sb out · bored stiff · with one's fiftieth looming ·
+  put down roots · stay put · not know a soul · a good judge of character · take the trouble to · in retrospect
 
 ## Candidatos a v2 (decidir en diciembre si compensa una v2; respetar numeración de la v1)
 - LEX-IDI: come to a head · have an axe to grind · hatchet job · go astray · go back and forth
