@@ -250,8 +250,9 @@ def wrt_story(sid, ns, w1, w2, with_answers=True):
     story.append(Paragraph('<font color="#A4243B">Part 1</font>&nbsp;&nbsp;Essay', S["h1"]))
     story += w1.question_flowables(p1, number="1")
     story.append(PageBreak())
-    story.append(Paragraph('<font color="#A4243B">Part 2</font>&nbsp;&nbsp;Article, letter, report or review',
-                           S["h1"]))
+    names = [GENRE_NAMES[t["genre"]] for t in tasks]
+    genres = ", ".join([names[0]] + [n.lower() for n in names[1:-1]]) + " or " + names[-1].lower()
+    story.append(Paragraph(f'<font color="#A4243B">Part 2</font>&nbsp;&nbsp;{genres}', S["h1"]))
     story += w2.part2_flowables(tasks)
     if not with_answers:
         return story
