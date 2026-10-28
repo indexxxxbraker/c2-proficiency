@@ -42,6 +42,12 @@ apt-get install -y ffmpeg poppler-utils     # si faltan: ffmpeg para audio, pdft
 - El audio y las fotos necesitan red hacia `speech.platform.bing.com` (edge-tts, por WebSocket), `huggingface.co`
   (modelo del ASR) y `commons.wikimedia.org` / `upload.wikimedia.org` (fotos de Speaking). Si el proxy del entorno
   los bloquea, se generan PDFs y specs igualmente y el audio queda pendiente.
+- **Sesión local (ordenador de Roberto, Windows).** Si el audio o las fotos no se pueden hacer en la nube, se hacen en
+  una sesión local de Claude Code, que tiene la red completa. Usar WSL (Ubuntu) si está instalado; si no, Python de
+  Windows con ffmpeg en el PATH (`conda install -c conda-forge ffmpeg` o `winget install ffmpeg`). Fijar siempre
+  `LST_CACHE` y `SPK_PHOTOS` dentro de `.cache/` del repositorio (sus valores por defecto son rutas del contenedor) y
+  pasar la carpeta de salida a cada orden. En la sesión local solo se hace lo que necesita red: audio, ASR, fotos y
+  los PDFs finales que dependen de ellos. El contenido se sigue escribiendo y verificando en la nube.
 
 ## Simulacros: qué se produce
 
