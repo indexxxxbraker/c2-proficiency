@@ -2,7 +2,7 @@
 
 Material de preparación del Cambridge C2 Proficiency (examen previsto mayo/junio 2027) para Roberto.
 Octubre–diciembre de 2026: producción de material. Desde enero de 2027: estudio con lo producido.
-Todo el material de práctica (16 teorías, 116 hojas, 22 MP3) ya está hecho y vive en Google Drive (carpeta C2).
+Todo el material de práctica (16 teorías, 116 hojas, 22 MP3) ya está hecho: está en `material/` y en Google Drive (carpeta C2).
 **Lo que se produce en este repositorio son los simulacros (SIM).**
 
 ## Estructura
@@ -24,7 +24,7 @@ Módulos en `src/`:
   `solutions_flowables` (y `audio_events(standalone=False)` en Listening), más `verify()` y una hoja `--demo`.
   La cabecera de cada archivo documenta su `spec`. Léela antes de usarlo.
 - `spk_specs.py` — contenido de los seis tests de Speaking ya entregados. El contenido del resto de hojas de práctica
-  está en el `DEMO` de cada generador (una hoja) y en los PDFs de Drive. **Ni sus textos ni sus temas se reutilizan.**
+  está en el `DEMO` de cada generador (una hoja) y en los PDFs de `material/` (se pueden leer con `pdftotext`). **Ni sus textos ni sus temas se reutilizan.**
 
 ## Entorno
 
