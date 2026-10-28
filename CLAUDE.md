@@ -85,6 +85,14 @@ de 600–720 palabras + 8 párrafos de 40–70; P7 unas 720 palabras en 4–6 se
 3. Renderizar el PDF (`pdftoppm -r 60 -png`) y mirar todas las páginas: títulos huérfanos, tablas partidas, restos de marcado.
 4. En Listening, escuchar por tramos con el ASR y comprobar la duración total (unos 40 min con pausas).
 
+## Repositorio público
+
+El repositorio es público (código MIT, contenido CC BY 4.0, ver `LICENSE-CONTENT.md`). Por eso:
+- La portada de cada PDF de simulacro incluye, en letra pequeña: «Material no oficial, sin afiliación con Cambridge
+  University Press & Assessment. Audio con voces sintéticas.» (en la portada, no en la plantilla, que no se toca).
+- Los MP3 se hacen commit **solo en su versión final**: cada versión intermedia quedaría para siempre en el historial.
+- Nada de datos personales en los archivos ni en los commits.
+
 ## Entrega
 
 Los PDFs y MP3 terminados van a `sim/SIM-NN/` y se hacen commit. Roberto los sube a Drive (carpeta 07_Simulacros).
