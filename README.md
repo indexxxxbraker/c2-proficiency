@@ -40,8 +40,8 @@ Aun así puede haber errores. Si encuentras uno, abre un *issue*.
 | Speaking | 1–3 | Teoría, rúbrica y tests completos con fotos y audio de examinador para practicar solo |
 | Simulacros | Todo el examen | Exámenes completos, un PDF por paper, con hoja de respuestas y soluciones |
 
-Estado actual: el repositorio contiene los generadores y los simulacros a medida que se terminan (carpeta `sim/`).
-Las teorías y hojas de práctica ya terminadas (16 teorías, 116 hojas y 22 audios) se irán incorporando.
+Estado actual: **16 teorías, 116 hojas de práctica y 22 audios** en `material/` (índice en
+[`material/README.md`](material/README.md)), y los simulacros en `sim/` a medida que se terminan.
 
 ## Cómo usarlo
 
@@ -59,6 +59,7 @@ python3 src/gen_UOE-P3.py --demo salida/  # hoja de ejemplo de Use of English Pa
 Cada generador documenta en su cabecera el formato de la especificación que recibe.
 
 ```
+material/ teorías y hojas de práctica por paper (UOE, RDG, WRT, LST, SPK, LEX)
 src/    generadores (uno por parte del examen), plantilla visual y motor de audio
 fonts/  fuentes de la plantilla (Carlito, Caladea, Poppins)
 sim/    simulacros completos

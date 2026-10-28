@@ -10,6 +10,7 @@ Todo el material de práctica (16 teorías, 116 hojas, 22 MP3) ya está hecho y 
 ```
 src/      todos los generadores y módulos (carpeta plana: se importan entre sí por ruta)
 fonts/    Carlito, Caladea y Poppins (c2_plantilla.py las busca aquí antes que en el sistema)
+material/ teorías y hojas de práctica ya entregadas (copia de Drive; no se modifican aquí)
 sim/      salida: una carpeta por simulacro (sim/SIM-01/, sim/SIM-02/, …)
 docs/     00_Pendientes.md (estado y pendientes), LEX_entrada.md
 ```
