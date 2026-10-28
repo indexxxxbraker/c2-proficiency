@@ -580,8 +580,8 @@ def spk(sim_dir, only_verify=False):
     m.UA = "C2ProficiencySimulacros/1.0 (https://github.com/indexxxxbraker/c2-proficiency; educational)"
     fetch = m._fetch
     m._fetch = lambda url, timeout=60, tries=10: fetch(url, timeout, tries)   # Commons responde 429 a menudo
-    for ph in spec["p2"]["photos"]:
-        ph["_info"] = m.photo_info(ph["file"])
+    for ph in spec["p2"]["photos"]:   # 960 px: tamaño estándar de miniatura (los originales sin escalar dan 429)
+        ph["_info"] = m.photo_info(ph["file"], width=960)
     errs, info = m.verify(spec)
     if errs:
         raise ValueError(f"{sid} SPK:\n  - " + "\n  - ".join(errs))
