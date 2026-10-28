@@ -42,6 +42,9 @@ apt-get install -y ffmpeg poppler-utils     # si faltan: ffmpeg para audio, pdft
 - El audio y las fotos necesitan red hacia `speech.platform.bing.com` (edge-tts, por WebSocket), `huggingface.co`
   (modelo del ASR) y `commons.wikimedia.org` / `upload.wikimedia.org` (fotos de Speaking). Si el proxy del entorno
   los bloquea, se generan PDFs y specs igualmente y el audio queda pendiente.
+- Commons responde 429 a menudo, sobre todo a búsquedas y a originales sin escalar: pedir pocas consultas (varios
+  títulos por consulta), miniaturas en tamaños estándar (330, 500, 960 px) y esperar entre intentos. Para dar con
+  candidatas sirve WebSearch limitado a commons.wikimedia.org; la licencia se comprueba siempre en la API.
 
 ## Simulacros: qué se produce
 

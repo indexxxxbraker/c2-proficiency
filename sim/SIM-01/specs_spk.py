@@ -95,7 +95,7 @@ SPEC = {
         "language": ["What the poster needs, above all, is …", "This one raises a question rather than answering it.",
                      "A and E make a striking pair: …", "If it came down to a choice between …"],
         "partner": [
-            {"text": "I find the video call quite moving, actually. They’re clearly delighted, and they’re huddled "
+            {"text": "I think the video call is quite moving, actually. They’re clearly delighted, and they’re huddled "
                      "together in front of the screen, as if they’re trying to close the distance.",
              "provokes": "Una observación fina: recógela con sus palabras y llévala a la otra foto.",
              "react": "‘Trying to close the distance’ – that’s exactly it. And the two women signing don’t have any "
